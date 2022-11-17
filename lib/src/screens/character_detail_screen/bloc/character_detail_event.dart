@@ -8,9 +8,9 @@ abstract class CharacterDetailEvent extends Equatable {
 }
 
 class CharacterDetailScreenInitial extends CharacterDetailEvent {
-  final int id;
+  // final String id;
 
-  const CharacterDetailScreenInitial({
-    required this.id,
-  });
+  // const CharacterDetailScreenInitial({
+  //   // required this.id,
+  // });
 }

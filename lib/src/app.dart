@@ -68,3 +68,11 @@ class _BaseBankAppContentState extends State<BaseAppContent> {
     );
   }
 }
+
+// class Arguments {
+//   final int? id;
+
+//   Arguments({
+//     this.id,
+//   });
+// }

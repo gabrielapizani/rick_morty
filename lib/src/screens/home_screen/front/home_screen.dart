@@ -45,19 +45,19 @@ class _HomeScreenContentState extends State<HomeScreenContent>
   void initState() {
     super.initState();
 
-    // scrollController.addListener(() {
-    //   if (scrollController.position.maxScrollExtent ==
-    //           scrollController.offset &&
-    //       hasReachedMax == false) {
-    //     fetch();
-    //   }
-    // });
+    scrollController.addListener(() {
+      if (scrollController.position.maxScrollExtent ==
+              scrollController.offset &&
+          hasReachedMax == false) {
+        fetch();
+      }
+    });
   }
 
-  // Future fetch() async {
-  //   context.read<HomeBloc>().add(HomeScreenInitial());
-  //   setState(() {});
-  // }
+  Future fetch() async {
+    context.read<HomeBloc>().add(HomeScreenInitial());
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -121,13 +121,18 @@ class _HomeScreenContentState extends State<HomeScreenContent>
                             image: charactersList[index].image,
                             name: charactersList[index].name,
                             species: charactersList[index].species,
-                            episodes: charactersList[index].totalEpisodes ?? 0,
+                            episodes: charactersList[index].totalEpisodes =
+                                charactersList[index].episode.length,
                             isFavorited:
                                 charactersList[index].isFavorited ?? false,
                             onTapFunction: () {
                               charactersList[index].id;
                               Navigator.pushNamed(
-                                  context, CharacterDetailScreen.routeName);
+                                context,
+                                CharacterDetailScreen.routeName,
+                                // arguments:
+                                //     Arguments(id: charactersList[index].id),
+                              );
                             },
                           ),
                           const Divider(

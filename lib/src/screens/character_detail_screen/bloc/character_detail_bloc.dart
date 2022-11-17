@@ -27,7 +27,7 @@ class CharacterDetailBloc
 
     try {
       var characterDetail =
-          await _characterDetailRepository.getCharactersResponse(event.id);
+          await _characterDetailRepository.getCharactersResponse(); //);
 
       var episodeIds = characterDetail.episode
           .map((episode) => episode.split('/').last)
@@ -38,7 +38,7 @@ class CharacterDetailBloc
 
       emit(CharacterDetailInitial(
         characterDetail: characterDetail,
-        characterEpidodeDetail: episodesResults,
+        characterEpidodeList: episodesResults,
       ));
     } catch (error) {
       emit(CharacterDetailInitialFailure(error: error.toString()));

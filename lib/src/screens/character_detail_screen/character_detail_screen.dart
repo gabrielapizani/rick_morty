@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rick_morty/src/http/repositories/character_detail/models/character_episodes_item_model.dart';
 
 import '../../http/repositories/character_detail/character_detail_repository.dart';
 import '../../http/repositories/character_detail/models/character_detail_item_model.dart';
@@ -9,20 +10,20 @@ import 'bloc/character_detail_bloc.dart';
 class CharacterDetailScreen extends StatelessWidget {
   static const routeName = '/details';
 
-  static int id = 1;
-
   const CharacterDetailScreen({
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    // final args = ModalRoute.of(context)!.settings.arguments as Arguments;
+
     return RepositoryProvider(
       create: (_) => CharacterDetailRepository(),
       child: BlocProvider<CharacterDetailBloc>(
         create: (BuildContext context) => CharacterDetailBloc(
           characterDetailRepository: context.read<CharacterDetailRepository>(),
-        )..add(CharacterDetailScreenInitial(id: id)),
+        )..add(CharacterDetailScreenInitial()), //id: args.id.toString())),
         child: const CharacterDetailContent(),
       ),
     );
@@ -50,7 +51,8 @@ class _CharacterDetailContentState extends State<CharacterDetailContent> {
         listener: (context, state) {},
         builder: (context, state) {
           if (state is CharacterDetailInitial) {
-            return _buildPage(state.characterDetail);
+            return _buildPage(
+                state.characterDetail, state.characterEpidodeList);
           }
           return const SplashScreen();
         },
@@ -58,7 +60,8 @@ class _CharacterDetailContentState extends State<CharacterDetailContent> {
     );
   }
 
-  _buildPage(CharacterDetailItemModel characterDetail) {
+  _buildPage(CharacterDetailItemModel characterDetail,
+      List<CharacterEpisodesItemModel> characterEpidodeList) {
     return Column(
       children: [
         Expanded(

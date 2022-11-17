@@ -11,11 +11,11 @@ class CharacterDetailLoading extends CharacterDetailState {}
 
 class CharacterDetailInitial extends CharacterDetailState {
   final CharacterDetailItemModel characterDetail;
-  final List<CharacterEpisodesItemModel> characterEpidodeDetail;
+  final List<CharacterEpisodesItemModel> characterEpidodeList;
 
   const CharacterDetailInitial({
     required this.characterDetail,
-    required this.characterEpidodeDetail,
+    required this.characterEpidodeList,
   });
 }
 

@@ -9,9 +9,9 @@ class CharacterDetailRepository {
   CharacterDetailRepository({ApiClient? client})
       : _client = client ?? ApiClient();
 
-  Future<CharacterDetailItemModel> getCharactersResponse(int id) async {
+  Future<CharacterDetailItemModel> getCharactersResponse() async {
     try {
-      String _endpoint = '/character/$id';
+      String _endpoint = '/character/'; //$id';
       var response = await _client.get(
         _endpoint,
       );
