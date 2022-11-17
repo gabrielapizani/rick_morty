@@ -5,7 +5,7 @@ import '../../../components/cards/item_card.dart';
 import '../../../components/images/logo_image.dart';
 import '../../../http/repositories/home/home_repository.dart';
 import '../../../http/repositories/home/models/characters_item_model.dart';
-import '../../../http/repositories/home/models/favorite_characters_item_model.dart';
+import '../../character_detail_screen/character_detail_screen.dart';
 import '../../splash_screen/splash_screen.dart';
 import '../bloc/home_bloc.dart';
 
@@ -69,7 +69,8 @@ class _HomeScreenContentState extends State<HomeScreenContent>
           if (state is HomeInitial) {
             return _buildPage(
               state.charactersList,
-              state.favoriteCharactersList,
+              // state.pageInfos,
+              // state.favoriteCharactersList,
             );
           }
           return const SplashScreen();
@@ -80,7 +81,8 @@ class _HomeScreenContentState extends State<HomeScreenContent>
 
   _buildPage(
     List<CharactersItemModel> charactersList,
-    List<FavoriteCharactersItemModel> favoriteCharactersList,
+    // CharactersInfoModel pageInfos,
+    // List<FavoriteCharactersItemModel> favoriteCharactersList,
   ) {
     TabController _tabController;
     _tabController = TabController(
@@ -90,102 +92,128 @@ class _HomeScreenContentState extends State<HomeScreenContent>
     return Column(
       children: [
         Expanded(
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.only(
-                top: 32.0,
-                right: 16.0,
-                left: 16.0,
-                bottom: 24.0,
-              ),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      LogoImage(),
-                    ],
+          child: Padding(
+            padding: const EdgeInsets.only(
+              top: 24.0,
+              right: 16.0,
+              left: 16.0,
+              bottom: 24.0,
+            ),
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    LogoImage(),
+                  ],
+                ),
+                SizedBox(
+                  height: 700,
+                  child: ListView.builder(
+                    scrollDirection: Axis.vertical,
+                    controller: scrollController,
+                    // itemCount: pageInfos.pages + 1,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Column(
+                        children: [
+                          ItemCard(
+                            id: charactersList[index].id,
+                            image: charactersList[index].image,
+                            name: charactersList[index].name,
+                            species: charactersList[index].species,
+                            episodes: charactersList[index].totalEpisodes ?? 0,
+                            isFavorited:
+                                charactersList[index].isFavorited ?? false,
+                            onTapFunction: () {
+                              charactersList[index].id;
+                              Navigator.pushNamed(
+                                  context, CharacterDetailScreen.routeName);
+                            },
+                          ),
+                          const Divider(
+                            color: Color(0xFF88bc65),
+                            height: 2,
+                          ),
+                        ],
+                      );
+                    },
                   ),
-                  TabBar(
-                      controller: _tabController,
-                      labelColor: Colors.white,
-                      indicatorWeight: 3,
-                      indicatorColor: Color(0xFF88bc65),
-                      labelStyle: const TextStyle(
-                        fontSize: 16.0,
-                      ),
-                      tabs: const <Widget>[
-                        Tab(
-                          text: "Todos",
-                        ),
-                        Tab(
-                          text: "Favoritos",
-                        ),
-                      ]),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      top: 8.0,
-                    ),
-                    child: TabBarView(
-                      controller: _tabController,
-                      children: [
-                        ListView.builder(
-                          controller: scrollController,
-                          itemCount: charactersList.length + 1,
-                          itemBuilder: (BuildContext context, int index) {
-                            return Column(
-                              children: [
-                                ItemCard(
-                                  id: charactersList[index].id,
-                                  image: charactersList[index].image,
-                                  name: charactersList[index].name,
-                                  species: charactersList[index].species,
-                                  episodes:
-                                      charactersList[index].totalEpisodes ?? 0,
-                                  isFavorited:
-                                      charactersList[index].isFavorited ??
-                                          false,
-                                  onTapFunction: () {},
-                                ),
-                                const Divider(
-                                  color: Color(0xFF88bc65),
-                                  height: 1,
-                                ),
-                              ],
-                            );
-                          },
-                        ),
-                        ListView.builder(
-                          controller: scrollController,
-                          itemCount: charactersList.length + 1,
-                          itemBuilder: (BuildContext context, int index) {
-                            return Column(
-                              children: [
-                                ItemCard(
-                                  id: charactersList[index].id,
-                                  image: charactersList[index].image,
-                                  name: charactersList[index].name,
-                                  species: charactersList[index].species,
-                                  episodes:
-                                      charactersList[index].totalEpisodes ?? 0,
-                                  isFavorited:
-                                      charactersList[index].isFavorited ??
-                                          false,
-                                  onTapFunction: () {},
-                                ),
-                                const Divider(
-                                  color: Color(0xFF88bc65),
-                                  height: 1,
-                                ),
-                              ],
-                            );
-                          },
-                        ),
-                      ],
-                    ),
-                  )
-                ],
-              ),
+                ),
+                // TabBar(
+                //     controller: _tabController,
+                //     labelColor: Colors.white,
+                //     indicatorWeight: 3,
+                //     indicatorColor: Color(0xFF88bc65),
+                //     labelStyle: const TextStyle(
+                //       fontSize: 16.0,
+                //     ),
+                //     tabs: const <Widget>[
+                //       Tab(
+                //         text: "Todos",
+                //       ),
+                //       Tab(
+                //         text: "Favoritos",
+                //       ),
+                //     ]),
+                // Padding(
+                //   padding: const EdgeInsets.only(
+                //     top: 8.0,
+                //   ),
+                //   child: TabBarView(
+                //     controller: _tabController,
+                //     children: [
+                //       ListView.builder(
+                //         controller: scrollController,
+                //         itemCount: charactersList.length + 1,
+                //         itemBuilder: (BuildContext context, int index) {
+                //           return Column(
+                //             children: [
+                //               ItemCard(
+                //                 id: charactersList[index].id,
+                //                 image: charactersList[index].image,
+                //                 name: charactersList[index].name,
+                //                 species: charactersList[index].species,
+                //                 episodes: charactersList[index].totalEpisodes ?? 0,
+                //                 isFavorited:
+                //                     charactersList[index].isFavorited ?? false,
+                //                 onTapFunction: () {},
+                //               ),
+                //               const Divider(
+                //                 color: Color(0xFF88bc65),
+                //                 height: 1,
+                //               ),
+                //             ],
+                //           );
+                //         },
+                //       ),
+                //       ListView.builder(
+                //         controller: scrollController,
+                //         itemCount: charactersList.length + 1,
+                //         itemBuilder: (BuildContext context, int index) {
+                //           return Column(
+                //             children: [
+                //               ItemCard(
+                //                 id: charactersList[index].id,
+                //                 image: charactersList[index].image,
+                //                 name: charactersList[index].name,
+                //                 species: charactersList[index].species,
+                //                 episodes: charactersList[index].totalEpisodes ?? 0,
+                //                 isFavorited:
+                //                     charactersList[index].isFavorited ?? false,
+                //                 onTapFunction: () {},
+                //               ),
+                //               const Divider(
+                //                 color: Color(0xFF88bc65),
+                //                 height: 1,
+                //               ),
+                //             ],
+                //           );
+                //         },
+                //       ),
+                //     ],
+                //   ),
+                // )
+              ],
             ),
           ),
         ),

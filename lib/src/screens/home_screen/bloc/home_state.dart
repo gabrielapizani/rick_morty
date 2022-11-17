@@ -11,11 +11,13 @@ class HomeLoading extends HomeState {}
 
 class HomeInitial extends HomeState {
   final List<CharactersItemModel> charactersList;
-  final List<FavoriteCharactersItemModel> favoriteCharactersList;
+  // final CharactersInfoModel pageInfos;
+  // final List<FavoriteCharactersItemModel> favoriteCharactersList;
 
   const HomeInitial({
     required this.charactersList,
-    required this.favoriteCharactersList,
+    // required this.pageInfos,
+    // required this.favoriteCharactersList,
   });
 }
 

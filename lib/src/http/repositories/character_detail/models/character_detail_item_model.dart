@@ -1,19 +1,19 @@
 import 'package:json_annotation/json_annotation.dart';
 
-import 'location_item_model.dart';
+import 'character_location_item_model.dart';
 
-part 'characters_item_model.g.dart';
+part 'character_detail_item_model.g.dart';
 
 @JsonSerializable()
-class CharactersItemModel {
+class CharacterDetailItemModel {
   int id;
   String name;
   String status;
   String species;
   String type;
   String gender;
-  LocationItemModel origin;
-  LocationItemModel location;
+  CharacterLocationItemModel origin;
+  CharacterLocationItemModel location;
   String image;
   List<String> episode;
   String url;
@@ -21,7 +21,7 @@ class CharactersItemModel {
   bool? isFavorited;
   int? totalEpisodes;
 
-  CharactersItemModel({
+  CharacterDetailItemModel({
     required this.id,
     required this.name,
     required this.status,
@@ -38,8 +38,8 @@ class CharactersItemModel {
     this.totalEpisodes,
   });
 
-  factory CharactersItemModel.fromJson(Map<String, dynamic> json) =>
-      _$CharactersItemModelFromJson(json);
+  factory CharacterDetailItemModel.fromJson(Map<String, dynamic> json) =>
+      _$CharacterDetailItemModelFromJson(json);
 
-  Map<String, dynamic> toJson() => _$CharactersItemModelToJson(this);
+  Map<String, dynamic> toJson() => _$CharacterDetailItemModelToJson(this);
 }

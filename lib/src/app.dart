@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rick_morty/src/screens/character_detail_screen/character_detail_screen.dart';
 
 import 'http/repositories/home/home_repository.dart';
 import 'routes/routes.dart';
@@ -57,6 +58,8 @@ class _BaseBankAppContentState extends State<BaseAppContent> {
             switch (routeSettings.name) {
               case HomeScreen.routeName:
                 return const HomeScreen();
+              case CharacterDetailScreen.routeName:
+                return const CharacterDetailScreen();
             }
             return const SplashScreen();
           },

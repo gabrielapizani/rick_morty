@@ -31,51 +31,66 @@ class ItemCard extends StatelessWidget {
       final bool isFavorited,
       Function() onTapFunction,
     ) =>
-        Column(children: [
-          Padding(
-              padding: const EdgeInsets.all(24),
-              child: Row(
-                children: [
-                  Image.network(image),
-                  Column(
+        Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 8.0,
+                  horizontal: 8.0,
+                ),
+                child: GestureDetector(
+                  onTap: onTapFunction,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Row(
-                        children: [
-                          Text(
-                            name,
-                            style: const TextStyle(
-                              fontSize: 20.0,
-                              color: Color(
-                                0xFF02b1c6,
+                      SizedBox(
+                        width: 60.0,
+                        height: 60.0,
+                        child: Image.network(image),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              name,
+                              style: const TextStyle(
+                                fontSize: 20.0,
+                                color: Color(
+                                  0xFF02b1c6,
+                                ),
+                                fontWeight: FontWeight.w600,
                               ),
-                              fontWeight: FontWeight.w600,
                             ),
-                          ),
-                        ],
-                      ),
-                      Text(
-                        species,
-                        style: const TextStyle(
-                          fontSize: 18.0,
-                          color: Color(
-                            0xFFf4ea39,
-                          ),
+                            Text(
+                              species,
+                              style: const TextStyle(
+                                fontSize: 18.0,
+                                color: Color(
+                                  0xFFf4ea39,
+                                ),
+                              ),
+                            ),
+                            Text(
+                              ' $episodes',
+                              style: const TextStyle(
+                                fontSize: 18.0,
+                                color: Color(
+                                  0xFFf4ea39,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
-                      Text(
-                        ' $episodes',
-                        style: const TextStyle(
-                          fontSize: 18.0,
-                          color: Color(
-                            0xFFf4ea39,
-                          ),
-                        ),
-                      ),
+                      )
                     ],
-                  )
-                ],
-              ))
-        ]);
+                  ),
+                ),
+              )
+            ]);
 
     return makeListTile(
       id,
