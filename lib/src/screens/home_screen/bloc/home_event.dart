@@ -7,4 +7,14 @@ abstract class HomeEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class HomeScreenInitial extends HomeEvent {}
+class HomeScreenLoad extends HomeEvent {
+  final List<CharactersItemModel>? characterList;
+  final String? nextPage;
+  final bool isLoading;
+
+  const HomeScreenLoad({
+    this.characterList,
+    this.nextPage,
+    this.isLoading = true,
+  });
+}

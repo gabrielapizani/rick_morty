@@ -3,7 +3,6 @@ import 'models/characters_info_model.dart';
 import 'models/characters_item_model.dart';
 import 'models/characters_response_model.dart';
 import 'models/episode_item_model.dart';
-import 'models/favorite_characters_item_model.dart';
 import 'models/location_item_model.dart';
 
 class HomeRepository {
@@ -11,11 +10,16 @@ class HomeRepository {
 
   HomeRepository({ApiClient? client}) : _client = client ?? ApiClient();
 
-  Future<CharactersResponseModel> getCharactersResponse() async {
+  Future<CharactersResponseModel> getCharactersResponse(
+    String? nextPage,
+  ) async {
     try {
-      const String _endpoint = '/character';
+      String endpoint = '/character';
+      if (nextPage != null) {
+        endpoint = '$endpoint/?page=$nextPage';
+      }
       var response = await _client.get(
-        _endpoint,
+        endpoint,
       );
       var responseModel = CharactersResponseModel();
 
@@ -70,21 +74,28 @@ class HomeRepository {
     }
   }
 
-  Future<List<FavoriteCharactersItemModel>> getFavoritesCharacters() async {
-    return [];
-    // try {
-    //   const String _endpoint = '/character';
-    //   var response = await _client.get(
-    //     _endpoint,
-    //   );
+  Future<List<CharactersItemModel>> getFavoritesCharacters(
+      List<String> favoritedIds) async {
+    try {
+      var joinedFavoritedCharactersIds = favoritedIds.join(',');
+      String endpoint =
+          '/character/${joinedFavoritedCharactersIds.replaceAll(r',', '%2C')}';
+      var response = await _client.get(
+        endpoint,
+      );
 
-    //   List<FavoriteCharactersItemModel> returnList = (response as List)
-    //       .map((i) => FavoriteCharactersItemModel.fromJson(i))
-    //       .toList();
+      List<CharactersItemModel> returnList;
 
-    //   return returnList;
-    // } catch (e) {
-    //   rethrow;
-    // }
+      if (response is List) {
+        returnList =
+            response.map((i) => CharactersItemModel.fromJson(i)).toList();
+      } else {
+        returnList = [CharactersItemModel.fromJson(response)];
+      }
+
+      return returnList;
+    } catch (e) {
+      rethrow;
+    }
   }
 }

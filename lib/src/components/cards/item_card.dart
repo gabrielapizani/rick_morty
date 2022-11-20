@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../images/character_image.dart';
+import '../text/pattern_text.dart';
+
 class ItemCard extends StatelessWidget {
   final int id;
   final String image;
@@ -42,51 +45,77 @@ class ItemCard extends StatelessWidget {
                 ),
                 child: GestureDetector(
                   onTap: onTapFunction,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        width: 60.0,
-                        height: 60.0,
-                        child: Image.network(image),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 8.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              name,
-                              style: const TextStyle(
+                  child: SizedBox(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        CharacterImage(
+                          image: image,
+                          width: 60.0,
+                          height: 60.0,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 8.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              PatternText(
+                                text: name,
                                 fontSize: 20.0,
-                                color: Color(
+                                color: const Color(
                                   0xFF02b1c6,
                                 ),
                                 fontWeight: FontWeight.w600,
                               ),
-                            ),
-                            Text(
-                              species,
-                              style: const TextStyle(
-                                fontSize: 18.0,
-                                color: Color(
-                                  0xFFf4ea39,
-                                ),
+                              Row(
+                                children: [
+                                  const PatternText(
+                                    text: 'Species:',
+                                    fontSize: 20.0,
+                                    color: Color(
+                                      0xFF02b1c6,
+                                    ),
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 8.0),
+                                    child: PatternText(
+                                      text: species,
+                                      fontSize: 18.0,
+                                      color: const Color(
+                                        0xFFf4ea39,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ),
-                            Text(
-                              ' $episodes',
-                              style: const TextStyle(
-                                fontSize: 18.0,
-                                color: Color(
-                                  0xFFf4ea39,
-                                ),
+                              Row(
+                                children: [
+                                  const PatternText(
+                                    text: 'Number for Episodes:',
+                                    fontSize: 20.0,
+                                    color: Color(
+                                      0xFF02b1c6,
+                                    ),
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 8.0),
+                                    child: PatternText(
+                                      text: '$episodes',
+                                      fontSize: 18.0,
+                                      color: const Color(
+                                        0xFFf4ea39,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ),
-                          ],
-                        ),
-                      )
-                    ],
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ),
               )

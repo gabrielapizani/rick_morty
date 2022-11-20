@@ -7,18 +7,17 @@ part 'character_episodes_item_model.g.dart';
 class CharacterEpisodesItemModel {
   int id;
   String name;
-  String air_date;
+  @JsonKey(name: 'air_date')
+  String airDate;
   String episode;
-  List<CharacterDetailItemModel> characters;
   String url;
   String created;
 
   CharacterEpisodesItemModel({
     required this.id,
     required this.name,
-    required this.air_date,
+    required this.airDate,
     required this.episode,
-    required this.characters,
     required this.url,
     required this.created,
   });

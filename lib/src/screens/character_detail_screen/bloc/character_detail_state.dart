@@ -12,10 +12,12 @@ class CharacterDetailLoading extends CharacterDetailState {}
 class CharacterDetailInitial extends CharacterDetailState {
   final CharacterDetailItemModel characterDetail;
   final List<CharacterEpisodesItemModel> characterEpidodeList;
+  final bool isFavorited;
 
   const CharacterDetailInitial({
     required this.characterDetail,
     required this.characterEpidodeList,
+    required this.isFavorited,
   });
 }
 
@@ -26,3 +28,7 @@ class CharacterDetailInitialFailure extends CharacterDetailState {
     required this.error,
   });
 }
+
+class FavoriteSaveSuccess extends CharacterDetailState {}
+
+class FavoriteSRemoveSuccess extends CharacterDetailState {}

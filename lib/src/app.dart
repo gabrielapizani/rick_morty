@@ -21,7 +21,7 @@ class BaseApp extends StatelessWidget {
       child: BlocProvider<HomeBloc>(
         create: (BuildContext context) => HomeBloc(
           homeRepository: context.read<HomeRepository>(),
-        )..add(HomeScreenInitial()),
+        )..add(HomeScreenLoad()),
         child: const BaseAppContent(),
       ),
     );
@@ -69,10 +69,10 @@ class _BaseBankAppContentState extends State<BaseAppContent> {
   }
 }
 
-// class Arguments {
-//   final int? id;
+class Arguments {
+  final int? id;
 
-//   Arguments({
-//     this.id,
-//   });
-// }
+  Arguments({
+    this.id,
+  });
+}

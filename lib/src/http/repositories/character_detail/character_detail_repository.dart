@@ -9,9 +9,9 @@ class CharacterDetailRepository {
   CharacterDetailRepository({ApiClient? client})
       : _client = client ?? ApiClient();
 
-  Future<CharacterDetailItemModel> getCharactersResponse() async {
+  Future<CharacterDetailItemModel> getCharactersResponse(String id) async {
     try {
-      String _endpoint = '/character/'; //$id';
+      String _endpoint = '/character/$id';
       var response = await _client.get(
         _endpoint,
       );
@@ -34,9 +34,15 @@ class CharacterDetailRepository {
         _endpoint,
       );
 
-      List<CharacterEpisodesItemModel> returnList = (response as List)
-          .map((i) => CharacterEpisodesItemModel.fromJson(i))
-          .toList();
+      List<CharacterEpisodesItemModel> returnList;
+
+      if (response is List) {
+        returnList = response
+            .map((i) => CharacterEpisodesItemModel.fromJson(i))
+            .toList();
+      } else {
+        returnList = [CharacterEpisodesItemModel.fromJson(response)];
+      }
 
       return returnList;
     } catch (e) {

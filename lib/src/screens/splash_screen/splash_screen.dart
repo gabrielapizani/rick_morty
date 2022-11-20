@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../components/loader/loader.dart';
+import '../../components/text/pattern_text.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({
@@ -26,12 +27,13 @@ class SplashScreen extends StatelessWidget {
                   Loader(),
                   Padding(
                     padding: EdgeInsets.only(top: 30),
-                    child: Text(
-                      'Carregando...',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w300,
-                        fontSize: 22.0,
+                    child: PatternText(
+                      text: 'Carregando...',
+                      fontSize: 22.0,
+                      color: Color(
+                        0xFF02b1c6,
                       ),
+                      fontWeight: FontWeight.w300,
                     ),
                   )
                 ],

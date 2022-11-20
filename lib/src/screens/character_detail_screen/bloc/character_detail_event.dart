@@ -8,9 +8,25 @@ abstract class CharacterDetailEvent extends Equatable {
 }
 
 class CharacterDetailScreenInitial extends CharacterDetailEvent {
-  // final String id;
+  final String id;
 
-  // const CharacterDetailScreenInitial({
-  //   // required this.id,
-  // });
+  const CharacterDetailScreenInitial({
+    required this.id,
+  });
+}
+
+class FavoritedButtonPressed extends CharacterDetailEvent {
+  final String characterId;
+
+  const FavoritedButtonPressed({
+    required this.characterId,
+  });
+}
+
+class FavoritedRemoveButtonPressed extends CharacterDetailEvent {
+  final String id;
+
+  const FavoritedRemoveButtonPressed({
+    required this.id,
+  });
 }

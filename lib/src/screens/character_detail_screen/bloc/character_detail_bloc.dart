@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../http/repositories/character_detail/character_detail_repository.dart';
 import '../../../http/repositories/character_detail/models/character_detail_item_model.dart';
@@ -17,6 +18,8 @@ class CharacterDetailBloc
       : _characterDetailRepository = characterDetailRepository,
         super(const CharacterDetailState()) {
     on<CharacterDetailScreenInitial>(_characterDetailScreenInitial);
+    on<FavoritedButtonPressed>(_favoritedButtonPressed);
+    // on<FavoritedRemoveButtonPressed>(_favoritedRemoveButtonPressed);
   }
 
   void _characterDetailScreenInitial(
@@ -27,7 +30,7 @@ class CharacterDetailBloc
 
     try {
       var characterDetail =
-          await _characterDetailRepository.getCharactersResponse(); //);
+          await _characterDetailRepository.getCharactersResponse(event.id);
 
       var episodeIds = characterDetail.episode
           .map((episode) => episode.split('/').last)
@@ -36,12 +39,78 @@ class CharacterDetailBloc
       var episodesResults =
           await _characterDetailRepository.getEpisodes(episodeIds);
 
+      final prefs = await SharedPreferences.getInstance();
+
+      final List<String>? favoritedIdList =
+          prefs.getStringList('favoritedIdList');
+
+      final bool isFavorited =
+          favoritedIdList != null && favoritedIdList.contains(event.id);
+
       emit(CharacterDetailInitial(
         characterDetail: characterDetail,
         characterEpidodeList: episodesResults,
+        isFavorited: isFavorited,
       ));
     } catch (error) {
       emit(CharacterDetailInitialFailure(error: error.toString()));
     }
   }
+
+  void _favoritedButtonPressed(
+    FavoritedButtonPressed event,
+    Emitter<CharacterDetailState> emit,
+  ) async {
+    emit(CharacterDetailLoading());
+
+    try {
+      final prefs = await SharedPreferences.getInstance();
+
+      final List<String>? favoritedIdList =
+          prefs.getStringList('favoritedIdList');
+
+      if (favoritedIdList == null) {
+        await prefs
+            .setStringList('favoritedIdList', <String>[event.characterId]);
+      } else {
+        if (favoritedIdList.contains(event.characterId)) {
+          favoritedIdList.remove(event.characterId);
+        } else {
+          favoritedIdList.add(event.characterId);
+        }
+
+        await prefs.setStringList('favoritedIdList', favoritedIdList);
+      }
+
+      emit(FavoriteSaveSuccess());
+    } catch (error) {
+      emit(CharacterDetailInitialFailure(error: error.toString()));
+    }
+  }
+
+  // void _favoritedRemoveButtonPressed(
+  //   FavoritedRemoveButtonPressed event,
+  //   Emitter<CharacterDetailState> emit,
+  // ) async {
+  //   emit(CharacterDetailLoading());
+
+  //   try {
+  //     final prefs = await SharedPreferences.getInstance();
+
+  //     final List<String>? favoritedIdList =
+  //         prefs.getStringList('favoritedIdList');
+
+  //     if (favoritedIdList == null) {
+  //       await prefs.setStringList('favoritedIdList', <String>[event.id]);
+  //     } else {
+  //       favoritedIdList.remove(event.id);
+
+  //       await prefs.setStringList('favoritedIdList', favoritedIdList);
+  //     }
+
+  //     emit(FavoriteSRemoveSuccess());
+  //   } catch (error) {
+  //     emit(CharacterDetailInitialFailure(error: error.toString()));
+  //   }
+  // }
 }
