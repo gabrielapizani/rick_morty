@@ -28,3 +28,23 @@ class HomeInitialFailure extends HomeState {
     required this.error,
   });
 }
+
+class FilterScreenOpen extends HomeState {}
+
+class FilteredItem extends HomeState {
+  final List<CharactersItemModel> charactersList;
+  final List<CharactersItemModel> favoriteCharactersList;
+
+  const FilteredItem({
+    required this.charactersList,
+    required this.favoriteCharactersList,
+  });
+}
+
+class FilterError extends HomeState {
+  final String error;
+
+  const FilterError({
+    required this.error,
+  });
+}

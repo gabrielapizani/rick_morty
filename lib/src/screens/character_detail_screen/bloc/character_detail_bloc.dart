@@ -19,7 +19,6 @@ class CharacterDetailBloc
         super(const CharacterDetailState()) {
     on<CharacterDetailScreenInitial>(_characterDetailScreenInitial);
     on<FavoritedButtonPressed>(_favoritedButtonPressed);
-    // on<FavoritedRemoveButtonPressed>(_favoritedRemoveButtonPressed);
   }
 
   void _characterDetailScreenInitial(
@@ -87,30 +86,4 @@ class CharacterDetailBloc
       emit(CharacterDetailInitialFailure(error: error.toString()));
     }
   }
-
-  // void _favoritedRemoveButtonPressed(
-  //   FavoritedRemoveButtonPressed event,
-  //   Emitter<CharacterDetailState> emit,
-  // ) async {
-  //   emit(CharacterDetailLoading());
-
-  //   try {
-  //     final prefs = await SharedPreferences.getInstance();
-
-  //     final List<String>? favoritedIdList =
-  //         prefs.getStringList('favoritedIdList');
-
-  //     if (favoritedIdList == null) {
-  //       await prefs.setStringList('favoritedIdList', <String>[event.id]);
-  //     } else {
-  //       favoritedIdList.remove(event.id);
-
-  //       await prefs.setStringList('favoritedIdList', favoritedIdList);
-  //     }
-
-  //     emit(FavoriteSRemoveSuccess());
-  //   } catch (error) {
-  //     emit(CharacterDetailInitialFailure(error: error.toString()));
-  //   }
-  // }
 }

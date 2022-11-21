@@ -18,3 +18,17 @@ class HomeScreenLoad extends HomeEvent {
     this.isLoading = true,
   });
 }
+
+class OpenFilterButtonPressed extends HomeEvent {}
+
+class FilterButtonPressed extends HomeEvent {
+  final String? nameCharacter;
+  final String? speciesCharacter;
+  final String? nextPage;
+
+  const FilterButtonPressed({
+    this.nameCharacter,
+    this.speciesCharacter,
+    this.nextPage,
+  });
+}

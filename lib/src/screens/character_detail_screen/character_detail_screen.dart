@@ -9,6 +9,7 @@ import 'package:rick_morty/src/http/repositories/character_detail/models/charact
 import '../../app.dart';
 import '../../components/cards/episode_item_card.dart';
 import '../../components/images/character_image.dart';
+import '../../components/screens/error_screen.dart';
 import '../../components/text/pattern_text.dart';
 import '../../http/repositories/character_detail/character_detail_repository.dart';
 import '../../http/repositories/character_detail/models/character_detail_item_model.dart';
@@ -68,6 +69,8 @@ class _CharacterDetailContentState extends State<CharacterDetailContent> {
           }
           if (state is FavoriteSaveSuccess) {
             return _favoritedSucess();
+          } else if (state is CharacterDetailInitialFailure) {
+            return _CharacterDetailFailure();
           }
           return const SplashScreen();
         },
@@ -87,8 +90,8 @@ class _CharacterDetailContentState extends State<CharacterDetailContent> {
             child: Padding(
               padding: const EdgeInsets.only(
                 top: 32.0,
-                right: 16.0,
-                left: 16.0,
+                right: 10.0,
+                left: 10.0,
                 bottom: 16.0,
               ),
               child: Column(
@@ -204,7 +207,7 @@ class _CharacterDetailContentState extends State<CharacterDetailContent> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         const PatternText(
-                          text: 'Species:',
+                          text: 'Espécie:',
                           fontSize: 20.0,
                           color: Color(
                             0xFF02b1c6,
@@ -230,7 +233,7 @@ class _CharacterDetailContentState extends State<CharacterDetailContent> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         const PatternText(
-                          text: 'Gender:',
+                          text: 'Gênero:',
                           fontSize: 20.0,
                           color: Color(
                             0xFF02b1c6,
@@ -256,7 +259,7 @@ class _CharacterDetailContentState extends State<CharacterDetailContent> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         const PatternText(
-                          text: 'Origin:',
+                          text: 'Origem:',
                           fontSize: 20.0,
                           color: Color(
                             0xFF02b1c6,
@@ -282,7 +285,7 @@ class _CharacterDetailContentState extends State<CharacterDetailContent> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         const PatternText(
-                          text: 'Location:',
+                          text: 'Localização:',
                           fontSize: 20.0,
                           color: Color(
                             0xFF02b1c6,
@@ -304,7 +307,7 @@ class _CharacterDetailContentState extends State<CharacterDetailContent> {
                   const Padding(
                     padding: EdgeInsets.only(top: 8.0),
                     child: PatternText(
-                      text: 'Episodes:',
+                      text: 'Episódios:',
                       fontSize: 20.0,
                       color: Color(
                         0xFF02b1c6,
@@ -351,5 +354,18 @@ class _CharacterDetailContentState extends State<CharacterDetailContent> {
         onTap: () {
           Navigator.pushNamed(context, HomeScreen.routeName);
         });
+  }
+
+  _CharacterDetailFailure() {
+    return ErrorScreen(
+      text:
+          'Infelizmente não conseguimos estabelecer conexão com o servidor. Por favor, verifique seu acesso à internet e tente novamente.',
+      onTap: () {
+        Navigator.pushNamed(
+          context,
+          HomeScreen.routeName,
+        );
+      },
+    );
   }
 }

@@ -38,7 +38,7 @@ class EpisodeItemCard extends StatelessWidget {
                         Row(
                           children: [
                             const PatternText(
-                              text: 'Name: ',
+                              text: 'Nome: ',
                               fontSize: 20.0,
                               color: Color(
                                 0xFF02b1c6,
@@ -64,7 +64,7 @@ class EpisodeItemCard extends StatelessWidget {
                         Row(
                           children: [
                             const PatternText(
-                              text: 'Exibition: ',
+                              text: 'Exibição: ',
                               fontSize: 20.0,
                               color: Color(
                                 0xFF02b1c6,
@@ -87,7 +87,7 @@ class EpisodeItemCard extends StatelessWidget {
                         Row(
                           children: [
                             const PatternText(
-                              text: 'Episode: ',
+                              text: 'Episódio: ',
                               fontSize: 20.0,
                               color: Color(
                                 0xFF02b1c6,

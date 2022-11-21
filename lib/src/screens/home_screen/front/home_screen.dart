@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:rick_morty/src/components/screens/error_screen.dart';
+import 'package:rick_morty/src/components/text/filter_text.dart';
 import 'package:rick_morty/src/screens/splash_screen/splash_screen.dart';
 
 import '../../../app.dart';
+import '../../../components/buttons/default_button.dart';
 import '../../../components/cards/item_card.dart';
 import '../../../components/images/logo_image.dart';
 import '../../../components/text/pattern_text.dart';
@@ -23,7 +27,7 @@ class HomeScreen extends StatelessWidget {
     return BlocProvider<HomeBloc>(
       create: (BuildContext context) => HomeBloc(
         homeRepository: RepositoryProvider.of<HomeRepository>(context),
-      )..add(HomeScreenLoad()),
+      )..add(const HomeScreenLoad()),
       child: const HomeScreenContent(),
     );
   }
@@ -47,9 +51,12 @@ class _HomeScreenContentState extends State<HomeScreenContent>
   bool isLoading = false;
   late TabController _tabController;
   static const List<Tab> tabs = <Tab>[
-    Tab(text: 'All characters'),
-    Tab(text: 'Favorited'),
+    Tab(text: 'Todos'),
+    Tab(text: 'Favoritos'),
   ];
+
+  final _textfieldControllerName = TextEditingController();
+  final _textfieldControllerSpecies = TextEditingController();
 
   @override
   void initState() {
@@ -110,6 +117,12 @@ class _HomeScreenContentState extends State<HomeScreenContent>
               state.charactersList,
               state.favoriteCharactersList,
             );
+          } else if (state is FilterScreenOpen) {
+            return _filterScreen();
+          } else if (state is HomeInitialFailure) {
+            return _errorHomeInitialScreen();
+          } else if (state is FilterError) {
+            return _errorFilterScreen();
           }
 
           return const SplashScreen();
@@ -125,8 +138,8 @@ class _HomeScreenContentState extends State<HomeScreenContent>
     return Padding(
       padding: const EdgeInsets.only(
         top: 24.0,
-        right: 16.0,
-        left: 16.0,
+        right: 10.0,
+        left: 10.0,
         bottom: 24.0,
       ),
       child: Column(
@@ -146,9 +159,34 @@ class _HomeScreenContentState extends State<HomeScreenContent>
               controller: _tabController,
               children: [
                 Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        const PatternText(
+                          text: 'Filtrar',
+                          color: Color(
+                            0xFF02b1c6,
+                          ),
+                          fontSize: 18.0,
+                        ),
+                        IconButton(
+                          iconSize: 20,
+                          color: const Color(
+                            0xFF02b1c6,
+                          ),
+                          onPressed: () {
+                            context.read<HomeBloc>().add(
+                                  OpenFilterButtonPressed(),
+                                );
+                          },
+                          icon: const Icon(FontAwesomeIcons.filter),
+                        ),
+                      ],
+                    ),
                     SizedBox(
-                      height: 700,
+                      height: 570,
                       child: ListView.builder(
                         scrollDirection: Axis.vertical,
                         controller: scrollController,
@@ -199,7 +237,7 @@ class _HomeScreenContentState extends State<HomeScreenContent>
                 Column(
                   children: [
                     SizedBox(
-                      height: 700,
+                      height: 620,
                       child: ListView.builder(
                         scrollDirection: Axis.vertical,
                         itemCount: favoriteCharactersList.length,
@@ -243,82 +281,95 @@ class _HomeScreenContentState extends State<HomeScreenContent>
               ],
             ),
           ),
-          // TabBar(
-          //     controller: _tabController,
-          //     labelColor: Colors.white,
-          //     indicatorWeight: 3,
-          //     indicatorColor: Color(0xFF88bc65),
-          //     labelStyle: const TextStyle(
-          //       fontSize: 16.0,
-          //     ),
-          //     tabs: const <Widget>[
-          //       Tab(
-          //         text: "Todos",
-          //       ),
-          //       Tab(
-          //         text: "Favoritos",
-          //       ),
-          //     ]),
-          // Padding(
-          //   padding: const EdgeInsets.only(
-          //     top: 8.0,
-          //   ),
-          //   child: TabBarView(
-          //     controller: _tabController,
-          //     children: [
-          //       ListView.builder(
-          //         controller: scrollController,
-          //         itemCount: charactersList.length + 1,
-          //         itemBuilder: (BuildContext context, int index) {
-          //           return Column(
-          //             children: [
-          //               ItemCard(
-          //                 id: charactersList[index].id,
-          //                 image: charactersList[index].image,
-          //                 name: charactersList[index].name,
-          //                 species: charactersList[index].species,
-          //                 episodes: charactersList[index].totalEpisodes ?? 0,
-          //                 isFavorited:
-          //                     charactersList[index].isFavorited ?? false,
-          //                 onTapFunction: () {},
-          //               ),
-          //               const Divider(
-          //                 color: Color(0xFF88bc65),
-          //                 height: 1,
-          //               ),
-          //             ],
-          //           );
-          //         },
-          //       ),
-          //       ListView.builder(
-          //         controller: scrollController,
-          //         itemCount: charactersList.length + 1,
-          //         itemBuilder: (BuildContext context, int index) {
-          //           return Column(
-          //             children: [
-          //               ItemCard(
-          //                 id: charactersList[index].id,
-          //                 image: charactersList[index].image,
-          //                 name: charactersList[index].name,
-          //                 species: charactersList[index].species,
-          //                 episodes: charactersList[index].totalEpisodes ?? 0,
-          //                 isFavorited:
-          //                     charactersList[index].isFavorited ?? false,
-          //                 onTapFunction: () {},
-          //               ),
-          //               const Divider(
-          //                 color: Color(0xFF88bc65),
-          //                 height: 1,
-          //               ),
-          //             ],
-          //           );
-          //         },
-          //       ),
-          //     ],
-          //   ),
-          // )
         ],
       ),
+    );
+  }
+
+  _filterScreen() {
+    return Padding(
+      padding: const EdgeInsets.only(
+        top: 56.0,
+        right: 10.0,
+        left: 10.0,
+        bottom: 24.0,
+      ),
+      child: Column(
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const PatternText(
+                    text: 'Por favor preencha um ou mais campos para filtrar:',
+                    color: Color(
+                      0xFF02b1c6,
+                    ),
+                    fontSize: 24.0),
+                Padding(
+                  padding: const EdgeInsets.only(top: 24.0),
+                  child: FilterText(
+                    text: 'Nome',
+                    controller: _textfieldControllerName,
+                  ),
+                ),
+                FilterText(
+                  text: 'Espécie',
+                  controller: _textfieldControllerSpecies,
+                ),
+              ],
+            ),
+          ),
+          DefaultButton(
+            text: 'Filtrar',
+            onPressed: () {
+              context.read<HomeBloc>().add(
+                    FilterButtonPressed(
+                      nameCharacter: _textfieldControllerName.text,
+                      speciesCharacter: _textfieldControllerSpecies.text,
+                    ),
+                  );
+            },
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: DefaultButton(
+              text: 'Voltar',
+              onPressed: () {
+                context.read<HomeBloc>().add(
+                      const HomeScreenLoad(),
+                    );
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  _errorHomeInitialScreen() {
+    return ErrorScreen(
+      text:
+          'Não foi possível iniciar o aplicativo, tente novamente mais tarde.',
+      onTap: () async {
+        Navigator.pushNamed(
+          context,
+          HomeScreen.routeName,
+        );
+      },
+    );
+  }
+
+  _errorFilterScreen() {
+    return ErrorScreen(
+      text:
+          'Não foi possível concluir sua busca, por favor verifique os campos digitados e tente novamente.',
+      onTap: () async {
+        Navigator.pushNamed(
+          context,
+          HomeScreen.routeName,
+        );
+      },
     );
   }
 }

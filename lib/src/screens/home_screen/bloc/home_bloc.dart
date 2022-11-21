@@ -16,6 +16,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       : _homeRepository = homeRepository,
         super(const HomeState()) {
     on<HomeScreenLoad>(_homeScreenLoad);
+    on<OpenFilterButtonPressed>(_openFilterScreen);
+    on<FilterButtonPressed>(_filterButtonPressed);
   }
 
   void _homeScreenLoad(
@@ -68,6 +70,47 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       ));
     } catch (error) {
       emit(HomeInitialFailure(error: error.toString()));
+    }
+  }
+
+  void _openFilterScreen(
+    OpenFilterButtonPressed event,
+    Emitter<HomeState> emit,
+  ) async {
+    emit(HomeLoading());
+    emit(FilterScreenOpen());
+  }
+
+  void _filterButtonPressed(
+    FilterButtonPressed event,
+    Emitter<HomeState> emit,
+  ) async {
+    emit(HomeLoading());
+
+    try {
+      final prefs = await SharedPreferences.getInstance();
+
+      var nextPageNumber = event.nextPage?.split("?page=").last;
+
+      final List<String>? favoritedIdList =
+          prefs.getStringList('favoritedIdList');
+
+      List<CharactersItemModel>? favoritedsResults;
+
+      var charactersFilterResponse = await _homeRepository.getCharactersFilter(
+          event.nameCharacter, event.speciesCharacter, nextPageNumber);
+
+      if (favoritedIdList != null) {
+        favoritedsResults =
+            await _homeRepository.getFavoritesCharacters(favoritedIdList);
+      }
+      emit(HomeInitial(
+        charactersList: charactersFilterResponse.results ?? [],
+        pageInfos: charactersFilterResponse.info,
+        favoriteCharactersList: favoritedsResults ?? [],
+      ));
+    } catch (error) {
+      emit(FilterError(error: error.toString()));
     }
   }
 }

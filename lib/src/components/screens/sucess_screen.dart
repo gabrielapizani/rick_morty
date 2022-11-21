@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rick_morty/src/components/text/pattern_text.dart';
 
+import '../buttons/default_button.dart';
+
 class SuccessScreen extends StatefulWidget {
   final String text;
   final VoidCallback onTap;
@@ -22,8 +24,8 @@ class _SuccessScreenState extends State<SuccessScreen> {
     return Padding(
       padding: const EdgeInsets.only(
         bottom: 16.0,
-        left: 16.0,
-        right: 16.0,
+        left: 10.0,
+        right: 10.0,
         top: 24.0,
       ),
       child: Column(
@@ -56,31 +58,9 @@ class _SuccessScreenState extends State<SuccessScreen> {
               ],
             ),
           ),
-          ConstrainedBox(
-            constraints: const BoxConstraints(
-              minHeight: 48.0,
-              minWidth: 240.0,
-            ),
-            child: ElevatedButton(
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(
-                  const Color(
-                    0xFF02b1c6,
-                  ),
-                ),
-                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5.0),
-                  ),
-                ),
-              ),
-              onPressed: widget.onTap,
-              child: const PatternText(
-                text: 'Voltar',
-                color: Colors.white,
-                fontSize: 24.0,
-              ),
-            ),
+          DefaultButton(
+            text: 'Filtrar',
+            onPressed: widget.onTap,
           ),
         ],
       ),

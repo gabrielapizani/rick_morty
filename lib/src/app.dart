@@ -21,7 +21,7 @@ class BaseApp extends StatelessWidget {
       child: BlocProvider<HomeBloc>(
         create: (BuildContext context) => HomeBloc(
           homeRepository: context.read<HomeRepository>(),
-        )..add(HomeScreenLoad()),
+        )..add(const HomeScreenLoad()),
         child: const BaseAppContent(),
       ),
     );

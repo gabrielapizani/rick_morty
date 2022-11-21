@@ -70,7 +70,7 @@ class ItemCard extends StatelessWidget {
                               Row(
                                 children: [
                                   const PatternText(
-                                    text: 'Species:',
+                                    text: 'Espécie:',
                                     fontSize: 20.0,
                                     color: Color(
                                       0xFF02b1c6,
@@ -92,7 +92,7 @@ class ItemCard extends StatelessWidget {
                               Row(
                                 children: [
                                   const PatternText(
-                                    text: 'Number for Episodes:',
+                                    text: 'Numero de episódios:',
                                     fontSize: 20.0,
                                     color: Color(
                                       0xFF02b1c6,
