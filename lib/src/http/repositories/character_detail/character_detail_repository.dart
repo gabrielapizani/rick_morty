@@ -65,21 +65,4 @@ class CharacterDetailRepository {
       rethrow;
     }
   }
-
-  // Future <FavoriteCharactersItemModel> getFavoritesCharacters() async {
-  //   try {
-  //     const String _endpoint = '/character';
-  //     var response = await _client.get(
-  //       _endpoint,
-  //     );
-
-  //     List<FavoriteCharactersItemModel> returnList = (response as List)
-  //         .map((i) => FavoriteCharactersItemModel.fromJson(i))
-  //         .toList();
-
-  //     return returnList;
-  //   } catch (e) {
-  //     rethrow;
-  //   }
-  // }
 }

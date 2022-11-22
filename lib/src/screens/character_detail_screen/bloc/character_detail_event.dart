@@ -1,10 +1,7 @@
 part of 'character_detail_bloc.dart';
 
-abstract class CharacterDetailEvent extends Equatable {
+abstract class CharacterDetailEvent {
   const CharacterDetailEvent();
-
-  @override
-  List<Object> get props => [];
 }
 
 class CharacterDetailScreenInitial extends CharacterDetailEvent {

@@ -30,9 +30,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  auto_route: ^4.2.1
   flutter_bloc: ^8.0.1
-  equatable: ^2.0.3
   json_annotation: ^4.5.0
   dio: ^4.0.6
   font_awesome_flutter: ^10.1.0

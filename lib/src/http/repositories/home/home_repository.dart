@@ -71,9 +71,6 @@ class HomeRepository {
     String? nextPage,
   ) async {
     try {
-      String filterNameUrl = filterName ?? 'name=$filterName';
-      String filterSpeciesUrl = filterSpecies ?? 'species=$filterSpecies';
-
       String endpoint =
           '/character/?name=$filterName&status=&species=$filterSpecies&type=&gender=';
 
