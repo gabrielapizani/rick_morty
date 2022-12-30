@@ -53,7 +53,3 @@ dio: ^4.0.6 - Pacote que permite fazer requisições Http. Optei pelo uso deste 
 font_awesome_flutter: ^10.1.0 - Pacote que oferece uma ampla lista ícones para uso na aplicação. Optei por usar este pacote devido a enorme gama de ícones gratuítos.
 
 shared_preferences: ^2.0.15 - Pacote utilizado para armazenamento de dados simples no dispositivo. Utilizei este pacote para armazenamento da lista de Id's de personagens favoritos.
-
-#Padrão de Arquitetura Utilizado
-
-Decidi por uma Arquitetura Modular com BloC para facilitar a leitura e edição do código. Dividindo as funcionalidades da minha aplicação por grupos, concentrando em cada grupo apenas o que lhe condiz, diminuindo o risco de erros, de leitura ou edição. Além de gerenciamento de Estados e Eventos com BloC.
